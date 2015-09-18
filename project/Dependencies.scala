@@ -9,7 +9,10 @@ object Dependencies {
   val excludeAsm = ExclusionRule(organization = "asm")
   val excludeQQ = ExclusionRule(organization = "org.scalamacros")
 
-  lazy val typeSafeConfigDeps = "com.typesafe" % "config" % "1.2.1"
+  // CDH 5.4 comes with akka 2.2.3-shaded-protobuf, which is built against com.typesafe.config-1.0.2,
+  // hence we need to downgrade here
+  // USED TO BE: 1.2.1
+  lazy val typeSafeConfigDeps = "com.typesafe" % "config" % "1.0.2"
   lazy val yammerDeps = "com.yammer.metrics" % "metrics-core" % "2.2.0"
 
   lazy val yodaDeps = Seq(
@@ -17,18 +20,31 @@ object Dependencies {
     "joda-time" % "joda-time" % "2.2"
   )
 
+
+  // CDH 5.4 comes with akka 2.2.3-shaded-protobuf preinstalled, so we should build against that version.
+  val akkaVersion = "2.2.3-shaded-protobuf"
+  
+  // io.spray 1.2.3 pulls in a newer akka version than the one included in CDH 5.4. We neeed to downgrade
+  // io.spray to 1.2.3 so we can use the akka version included in CDH 5.4.
+  // USED TO BE: 1.3.2
+  val sprayVersion = "1.2.3"
+  
   lazy val akkaDeps = Seq(
     // Akka is provided because Spark already includes it, and Spark's version is shaded so it's not safe
     // to use this one
-    "com.typesafe.akka" %% "akka-slf4j" % "2.3.4" % "provided",
-    "io.spray" %% "spray-json" % "1.3.2",
-    "io.spray" %% "spray-can" % "1.3.2",
-    "io.spray" %% "spray-routing" % "1.3.2",
-    "io.spray" %% "spray-client" % "1.3.2",
+    "org.spark-project.akka" %% "akka-slf4j" % akkaVersion % "provided",
+    "io.spray" %% "spray-json" % sprayVersion,
+    "io.spray" % "spray-can" % sprayVersion,
+    "io.spray" % "spray-routing" % sprayVersion,
+    "io.spray" % "spray-client" % sprayVersion,
     yammerDeps
   ) ++ yodaDeps
 
-  val sparkVersion = sys.env.getOrElse("SPARK_VERSION", "1.5.0")
+  // CDH 5.4 comes with spark 1.3.0-cdh5.4.5, hence we need to downgrade.
+  // USED TO BE: 1.4.1
+  val sparkVersion = sys.env.getOrElse("SPARK_VERSION", "1.3.0-cdh5.4.5")
+  Predef.println("Using Spark version: " + sparkVersion)
+  
   lazy val sparkDeps = Seq(
     "org.apache.spark" %% "spark-core" % sparkVersion % "provided" excludeAll(excludeNettyIo, excludeQQ),
     // Force netty version.  This avoids some Spark netty dependency problem.
@@ -59,8 +75,8 @@ object Dependencies {
 
   lazy val coreTestDeps = Seq(
     "org.scalatest" %% "scalatest" % "2.2.1" % "test",
-    "com.typesafe.akka" %% "akka-testkit" % "2.3.4" % "test",
-    "io.spray" %% "spray-testkit" % "1.3.2" % "test"
+    "org.spark-project.akka" %% "akka-testkit" % akkaVersion % "test",
+    "io.spray" % "spray-testkit" % sprayVersion % "test"
   )
 
   lazy val securityDeps = Seq(
@@ -73,6 +89,10 @@ object Dependencies {
   val repos = Seq(
     "Typesafe Repo" at "http://repo.typesafe.com/typesafe/releases/",
     "sonatype snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/",
-    "spray repo" at "http://repo.spray.io"
+    "spray repo" at "http://repo.spray.io",
+    
+     // Required for CDH 5.4 dependencies
+    "cdh repo" at "https://repository.cloudera.com/artifactory/cloudera-repos/",
+    "conjars repo" at "http://conjars.org/repo/"
   )
 }
