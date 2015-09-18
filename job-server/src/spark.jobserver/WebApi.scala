@@ -110,8 +110,7 @@ class WebApi(system: ActorSystem,
       import java.util.concurrent.TimeUnit
       logger.info("Using authentication.")
       initSecurityManager()
-      val authTimeout = Try(config.getDuration("shiro.authentication-timeout",
-              TimeUnit.MILLISECONDS).toInt / 1000).getOrElse(10)
+      val authTimeout = Try(config.getInt("shiro.authentication-timeout")).getOrElse(10)
       asShiroAuthenticator(authTimeout)
     } else {
       logger.info("No authentication.")

@@ -7,12 +7,12 @@ APP_USER=spark
 APP_GROUP=spark
 # optional SSH Key to login to deploy server
 #SSH_KEY=/path/to/keyfile.pem
-INSTALL_DIR=/home/spark/job-server
+INSTALL_DIR=/var/lib/spark/job-server
 LOG_DIR=/var/log/job-server
 PIDFILE=spark-jobserver.pid
 JOBSERVER_MEMORY=1G
-SPARK_VERSION=1.5.0
-SPARK_HOME=/home/spark/spark-1.5.0
+SPARK_VERSION=1.3.0-cdh5.4.5
+SPARK_HOME=/opt/cloudera/parcels/CDH/lib/spark/
 SPARK_CONF_DIR=$SPARK_HOME/conf
 # Only needed for Mesos deploys
 SPARK_EXECUTOR_URI=/home/spark/spark-1.5.0.tar.gz
