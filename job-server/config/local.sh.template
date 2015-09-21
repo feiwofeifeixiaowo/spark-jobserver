@@ -11,7 +11,7 @@ INSTALL_DIR=/var/lib/spark/job-server
 LOG_DIR=/var/log/job-server
 PIDFILE=spark-jobserver.pid
 JOBSERVER_MEMORY=1G
-SPARK_VERSION=1.3.0-cdh5.4.5
+SPARK_VERSION=1.2.0-cdh5.3.6
 SPARK_HOME=/opt/cloudera/parcels/CDH/lib/spark/
 SPARK_CONF_DIR=$SPARK_HOME/conf
 # Only needed for Mesos deploys
