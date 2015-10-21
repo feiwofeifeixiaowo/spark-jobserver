@@ -34,7 +34,8 @@ object Dependencies {
   lazy val sparkDeps = Seq(
     "org.apache.spark" %% "spark-core" % sparkVersion % "provided" excludeAll(excludeNettyIo, excludeQQ),
     // Force netty version.  This avoids some Spark netty dependency problem.
-    "io.netty" % "netty-all" % "4.0.29.Final"
+    "io.netty" % "netty-all" % "4.0.23.Final",
+    "com.typesafe.akka" %% "akka-cluster" % "2.3.4" exclude("com.typesafe.akka", "akka-remote")
   )
 
   lazy val sparkExtraDeps = Seq(
