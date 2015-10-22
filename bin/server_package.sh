@@ -50,8 +50,8 @@ FILES="job-server-extras/target/scala-$majorVersion/spark-job-server.jar
 
 
 WORK_DIR=$(mktemp -d)
-FILEDIR="$WORK_DIR/job-server-${ENV}"
-TAR_FILE="job-server-${ENV}.tar.gz"
+FILEDIR="$WORK_DIR/spark-job-server-${ENV}"
+TAR_FILE="spark-job-server-${ENV}.tar.gz"
 
 function finish {
     rm -Rf "${WORK_DIR}"
@@ -63,7 +63,7 @@ cp $FILES "$FILEDIR"/
 cp $configFile "$FILEDIR"/settings.sh
 
 pushd "$WORK_DIR"
-tar zcvf $TAR_FILE "job-server-${ENV}/"
+tar zcvf $TAR_FILE "spark-job-server-${ENV}/"
 popd
 
 mv "$WORK_DIR/$TAR_FILE" .
