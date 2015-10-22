@@ -91,6 +91,11 @@ export SPARK_HOME
 export YARN_CONF_DIR
 export HADOOP_CONF_DIR
 
+buildVersionFile="$appdir/build.version"
+if [ -f "$buildVersionFile" ] ; then
+  echo "BUILD-VERSION: $(cat $buildVersionFile)" >>"$LOG_DIR/spark-job-server.log"
+fi
+
 cmd='$SPARK_HOME/bin/spark-submit --class $MAIN --driver-memory $JOBSERVER_MEMORY
   --conf "spark.executor.extraJavaOptions=$LOGGING_OPTS"
   --driver-java-options "$GC_OPTS $JAVA_OPTS $LOGGING_OPTS $CONFIG_OVERRIDES"
