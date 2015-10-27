@@ -23,9 +23,6 @@ GC_OPTS="-XX:+UseConcMarkSweepGC
          -XX:MaxPermSize=512m
          -XX:+CMSClassUnloadingEnabled "
 
-# Fix for cloudera environments to detect JAVA_HOME
-. /opt/cloudera/parcels/CDH/lib/bigtop-utils/bigtop-detect-javahome
-
 # To truly enable JMX in AWS and other containerized environments, also need to set
 # -Djava.rmi.server.hostname equal to the hostname in that environment.  This is specific
 # depending on AWS vs GCE etc.
