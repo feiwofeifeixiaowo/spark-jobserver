@@ -16,13 +16,13 @@ object Dependencies {
   lazy val akkaDeps = Seq(
     // Akka is provided because Spark already includes it, and Spark's version is shaded so it's not safe
     // to use this one
-    "com.typesafe.akka" %% "akka-slf4j" % akka % "provided",
-    "com.typesafe.akka" %% "akka-cluster" % akka exclude("com.typesafe.akka", "akka-remote"),
+    "org.spark-project.akka" %% "akka-slf4j" % akka % "provided",
+    "com.typesafe.akka" %% "akka-cluster" % akkaCluster exclude("com.typesafe.akka", "akka-remote"),
     "io.spray" %% "spray-json" % sprayJson,
-    "io.spray" %% "spray-can" % spray,
-    "io.spray" %% "spray-caching" % spray,
-    "io.spray" %% "spray-routing" % spray,
-    "io.spray" %% "spray-client" % spray,
+    "io.spray" % "spray-can" % spray,
+    "io.spray" % "spray-caching" % spray,
+    "io.spray" % "spray-routing" % spray,
+    "io.spray" % "spray-client" % spray,
     yammerDeps
   )
 
@@ -59,8 +59,8 @@ object Dependencies {
 
   lazy val coreTestDeps = Seq(
     scalaTestDep,
-    "com.typesafe.akka" %% "akka-testkit" % akka % "test",
-    "io.spray" %% "spray-testkit" % spray % "test"
+    "org.spark-project.akka" %% "akka-testkit" % akka % "test",
+    "io.spray" % "spray-testkit" % spray % "test"
   )
 
   lazy val securityDeps = Seq(
@@ -73,6 +73,8 @@ object Dependencies {
   val repos = Seq(
     "Typesafe Repo" at "http://repo.typesafe.com/typesafe/releases/",
     "sonatype snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/",
+    // Required for Cloudera dependencies
+    "cdh repo" at "https://repository.cloudera.com/artifactory/cloudera-repos/",
     "spray repo" at "http://repo.spray.io"
   )
 }
