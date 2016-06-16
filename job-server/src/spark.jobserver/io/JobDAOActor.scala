@@ -48,26 +48,26 @@ class JobDAOActor(dao:JobDAO) extends InstrumentedActor {
 
     case GetApps =>
       val apps = Await.result(dao.getApps, 60 seconds)
-      sender() ! Apps(apps)
+      sender ! Apps(apps)
 
     case GetJarPath(appName, uploadTime) =>
-      sender() ! JarPath(dao.retrieveJarFile(appName,uploadTime))
+      sender ! JarPath(dao.retrieveJarFile(appName,uploadTime))
 
     case SaveJobInfo(jobInfo) =>
       dao.saveJobInfo(jobInfo)
 
     case GetJobInfos(limit) =>
       val jobInfo = Await.result(dao.getJobInfos(limit), 60 seconds)
-      sender() ! JobInfos(jobInfo)
+      sender ! JobInfos(jobInfo)
 
     case SaveJobConfig(jobId, jobConfig) =>
       dao.saveJobConfig(jobId,jobConfig)
 
     case GetJobConfigs =>
       val jobConfigs = Await.result(dao.getJobConfigs, 60 seconds)
-      sender() ! JobConfigs(jobConfigs)
+      sender ! JobConfigs(jobConfigs)
 
     case GetLastUploadTime(appName) =>
-      sender() ! LastUploadTime(dao.getLastUploadTime(appName))
+      sender ! LastUploadTime(dao.getLastUploadTime(appName))
   }
 }
